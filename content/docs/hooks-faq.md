@@ -5,9 +5,9 @@ permalink: docs/hooks-faq.html
 prev: hooks-reference.html
 ---
 
-*Hooks* are a new addition in React 16.8. They let you use state and other React features without writing a class.
+*Hooks* gibt es seit React 16.8. Sie erlauben es dir den State und andere React Funktionen zu nutzen, ohne eine Klasse schreiben zu müssen.
 
-This page answers some of the frequently asked questions about [Hooks](/docs/hooks-overview.html).
+Diese Seite beantwortet häufig gestellte Fragen zu [Hooks](/docs/hooks-overview.html).
 
 <!--
   if you ever need to regenerate this, this snippet in the devtools console might help:
@@ -19,17 +19,17 @@ This page answers some of the frequently asked questions about [Hooks](/docs/hoo
 -->
 
 * **[Adoption Strategy](#adoption-strategy)**
-  * [Which versions of React include Hooks?](#which-versions-of-react-include-hooks)
-  * [Do I need to rewrite all my class components?](#do-i-need-to-rewrite-all-my-class-components)
-  * [What can I do with Hooks that I couldn't with classes?](#what-can-i-do-with-hooks-that-i-couldnt-with-classes)
+  * [Welche Version von React beinhaltet Hooks?](#which-versions-of-react-include-hooks)
+  * [Muss ich alle meine Klassenkomponenten neuschreiben?](#do-i-need-to-rewrite-all-my-class-components)
+  * [Was kann ich mit Hooks erreichen, was ich mit Klassen nicht kann?](#what-can-i-do-with-hooks-that-i-couldnt-with-classes)
   * [How much of my React knowledge stays relevant?](#how-much-of-my-react-knowledge-stays-relevant)
-  * [Should I use Hooks, classes, or a mix of both?](#should-i-use-hooks-classes-or-a-mix-of-both)
-  * [Do Hooks cover all use cases for classes?](#do-hooks-cover-all-use-cases-for-classes)
-  * [Do Hooks replace render props and higher-order components?](#do-hooks-replace-render-props-and-higher-order-components)
-  * [What do Hooks mean for popular APIs like Redux connect() and React Router?](#what-do-hooks-mean-for-popular-apis-like-redux-connect-and-react-router)
-  * [Do Hooks work with static typing?](#do-hooks-work-with-static-typing)
-  * [How to test components that use Hooks?](#how-to-test-components-that-use-hooks)
-  * [What exactly do the lint rules enforce?](#what-exactly-do-the-lint-rules-enforce)
+  * [Sollte ich Hooks oder Klassen oder eine Mischung aus beidem nutzen?](#should-i-use-hooks-classes-or-a-mix-of-both)
+  * [Decken Hooks alle Anwendungsfälle für Klassen ab?](#do-hooks-cover-all-use-cases-for-classes)
+  * [Ersetzen Hooks render props und higher-order components?](#do-hooks-replace-render-props-and-higher-order-components)
+  * [Welche Auswirkungen haben Hooks auf populäre APIs wie Redux connect() und React Router?](#what-do-hooks-mean-for-popular-apis-like-redux-connect-and-react-router)
+  * [Funktionieren Hooks mit statischer Typisierung?](#do-hooks-work-with-static-typing)
+  * [Wie teste ich Komponenten die Hooks verwenden?](#how-to-test-components-that-use-hooks)
+  * [Was wird durch die Lint Regeln erzwungen?](#what-exactly-do-the-lint-rules-enforce)
 * **[From Classes to Hooks](#from-classes-to-hooks)**
   * [How do lifecycle methods correspond to Hooks?](#how-do-lifecycle-methods-correspond-to-hooks)
   * [How can I do data fetching with Hooks?](#how-can-i-do-data-fetching-with-hooks)
@@ -59,46 +59,48 @@ This page answers some of the frequently asked questions about [Hooks](/docs/hoo
 
 ## Adoption Strategy {#adoption-strategy}
 
-### Which versions of React include Hooks? {#which-versions-of-react-include-hooks}
+### Welche Version von React beinhaltet Hooks{#which-versions-of-react-include-hooks}
 
-Starting with 16.8.0, React includes a stable implementation of React Hooks for:
+Hooks werden untertsützt ab Version 16.8.0. Stabile implementierungen für React Hooks gibt es in folgenden Modulen:
 
 * React DOM
 * React DOM Server
 * React Test Renderer
 * React Shallow Renderer
 
-Note that **to enable Hooks, all React packages need to be 16.8.0 or higher**. Hooks won't work if you forget to update, for example, React DOM.
+Beachte, dass **um Hooks nutzen zu können, alle React packages mindestens Version 16.8.0 or neuer sein müssen**. Hooks funktionieren nicht, wenn ein Modul (z.B. React DOM) nicht aktualisiert wurde.
 
-React Native will fully support Hooks in its next stable release.
+React Native wird Hooks im nächsten stabilen Release unterstützen.
 
-### Do I need to rewrite all my class components? {#do-i-need-to-rewrite-all-my-class-components}
+### Muss ich alle meine Klassenkomponenten neuschreiben?? {#do-i-need-to-rewrite-all-my-class-components}
 
-No. There are [no plans](/docs/hooks-intro.html#gradual-adoption-strategy) to remove classes from React -- we all need to keep shipping products and can't afford rewrites. We recommend trying Hooks in new code.
+Nein. Es ist [nicht geplant](/docs/hooks-intro.html#gradual-adoption-strategy) Klassen aus React zu entfernen -- wir müssen Produkte ausliefern und wir können es uns nicht leisten sie neu zu schreiben. Aber wir empfehlen dir Hooks in neuem Code auszuprobieren.
 
-### What can I do with Hooks that I couldn't with classes? {#what-can-i-do-with-hooks-that-i-couldnt-with-classes}
+### Was kann ich mit Hooks erreichen, was ich mit Klassen nicht kann? {#what-can-i-do-with-hooks-that-i-couldnt-with-classes}
 
-Hooks offer a powerful and expressive new way to reuse functionality between components. ["Building Your Own Hooks"](/docs/hooks-custom.html) provides a glimpse of what's possible. [This article](https://medium.com/@dan_abramov/making-sense-of-react-hooks-fdbde8803889) by a React core team member dives deeper into the new capabilities unlocked by Hooks.
+Hooks bieten eine mächtige und ausdrucksstarke Möglichkeit, Funktionen zwischen Komponenten wiederzuverwenden. ["Building Your Own Hooks"](/docs/hooks-custom.html) gibt dir einen Einblick in das, was möglich ist. [Dieser Post](https://medium.com/@dan_abramov/making-sense-of-react-hooks-fdbde8803889) von einem React Core Mitglied gibt einen tieferen Einblick in die neuen Fähigkeiten von Hooks.
 
 ### How much of my React knowledge stays relevant? {#how-much-of-my-react-knowledge-stays-relevant}
 
-Hooks are a more direct way to use the React features you already know -- such as state, lifecycle, context, and refs. They don't fundamentally change how React works, and your knowledge of components, props, and top-down data flow is just as relevant.
+Hooks sind eine direkte Möglichkeit React Funktionen zu nutzen, die du bereits kennst -- wie z.B. State, Lebenszyklus, Context und Refs. Sie ändern nicht grundlegen, wie React funktioniert. Dein Wissen über Komponenten, Props, und den Top-Down Datemfluss ist immer noch relevant.
 
-Hooks do have a learning curve of their own. If there's something missing in this documentation, [raise an issue](https://github.com/reactjs/reactjs.org/issues/new) and we'll try to help.
+Hooks müssen neu erlernt werden. Sollte in der Dokumentation etwas fehlen, [erstelle eine Anfrage](https://github.com/reactjs/reactjs.org/issues/new) und wir werden versuchen dir zu helfen.
 
-### Should I use Hooks, classes, or a mix of both? {#should-i-use-hooks-classes-or-a-mix-of-both}
+### Sollte ich Hooks oder Klassen oder eine Mischung aus beidem nutzen? {#should-i-use-hooks-classes-or-a-mix-of-both}
 
-When you're ready, we'd encourage you to start trying Hooks in new components you write. Make sure everyone on your team is on board with using them and familiar with this documentation. We don't recommend rewriting your existing classes to Hooks unless you planned to rewrite them anyway (e.g. to fix bugs).
+Wenn du bereit bist, empfehlen wir dir in neuen Komponenten Hooks auszuprobieren. Stelle sicher, dass jeder in deinem Team mit Hooks und der Dokumentation vertraut ist. Wir empfehlen nicht existierende Klassen umzuschreiben. Es sei denn ein Refactoring ist geplant (z.B. um einen Bug zu korrigieren).
 
-You can't use Hooks *inside* of a class component, but you can definitely mix classes and function components with Hooks in a single tree. Whether a component is a class or a function that uses Hooks is an implementation detail of that component. In the longer term, we expect Hooks to be the primary way people write React components.
+Du kannst keine Hooks *innerhalb* einer Klassenkomponente nutzen, aber du kannst Klassen- und Funktionskomponenten in einem kombinieren. Die Implementierung einer Komponente, sei es eine Klasse oder eine Funktion, die Hooks verwendet, ist ein Implementierungsdetail der Komponente. Langfristig erwarten wir, dass Hooks der primäre Weg ist, um Komponenten zu schreiben.
 
-### Do Hooks cover all use cases for classes? {#do-hooks-cover-all-use-cases-for-classes}
+### Decken Hooks alle Anwendungsfälle für Klassen ab? {#do-hooks-cover-all-use-cases-for-classes}
 
-Our goal is for Hooks to cover all use cases for classes as soon as possible. There are no Hook equivalents to the uncommon `getSnapshotBeforeUpdate` and `componentDidCatch` lifecycles yet, but we plan to add them soon.
+Unser Ziel ist, dass Hooks alle Anwendungsfälle für Klassen so schnell wie möglich abdecken. Es gibt noch keine Hook-alternative zu den Lebenszyklen`getSnapshotBeforeUpdate` und `componentDidCatch`, aber wir planen sie bald hinzuzufügen.
 
-It is an early time for Hooks, and some third-party libraries might not be compatible with Hooks at the moment.
+Hooks sind noch sehr neu und einige Bibliotheken von Drittanbietern könnten derzeit mit Hooks noch nicht kompatibel sein.
 
-### Do Hooks replace render props and higher-order components? {#do-hooks-replace-render-props-and-higher-order-components}
+### Ersetzen Hooks render props und higher-order components? {#do-hooks-replace-render-props-and-higher-order-components}
+
+Oftmals rendern Render Props und higher order Komponenten nur ein einziges Kindelement. Wir denken Hooks ein einfacherer Weg ist, um diesen Anwendungsfall zu erfüllen.
 
 Often, render props and higher-order components render only a single child. We think Hooks are a simpler way to serve this use case. There is still a place for both patterns (for example, a virtual scroller component might have a `renderItem` prop, or a visual container component might have its own DOM structure). But in most cases, Hooks will be sufficient and can help reduce nesting in your tree.
 
