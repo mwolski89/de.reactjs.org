@@ -100,46 +100,42 @@ Hooks sind noch sehr neu und einige Bibliotheken von Drittanbietern könnten der
 
 ### Ersetzen Hooks render props und higher-order components? {#do-hooks-replace-render-props-and-higher-order-components}
 
-Oftmals rendern Render Props und higher order Komponenten nur ein einziges Kindelement. Wir denken Hooks ein einfacherer Weg ist, um diesen Anwendungsfall zu erfüllen.
+Oftmals rendern Render Props und Higher-Order Komponenten nur ein einziges Kindelement. Wir denken Hooks sind ein einfacherer Weg, um diesen Anwendungsfall zu erfüllen. Es gibt immer noch Platz für beide Programmiermuster (z.B. eine virtueller Scroller Komponentne könnte ein `renderItem` prop haben, oder eine darstellende Container Komponente könnte seine eigene DOM Struktur haben), aber in den meisten fällen, sind Hooks ausreichend und können helfen, Verschachtelungen in deinem Baum zu reduzieren.
 
-Often, render props and higher-order components render only a single child. We think Hooks are a simpler way to serve this use case. There is still a place for both patterns (for example, a virtual scroller component might have a `renderItem` prop, or a visual container component might have its own DOM structure). But in most cases, Hooks will be sufficient and can help reduce nesting in your tree.
+### Welche Auswirkungen haben Hooks auf populäre APIs wie Redux connect() und React Router? {#what-do-hooks-mean-for-popular-apis-like-redux-connect-and-react-router}
 
-### What do Hooks mean for popular APIs like Redux `connect()` and React Router? {#what-do-hooks-mean-for-popular-apis-like-redux-connect-and-react-router}
+Du kannst weiterhin die bereits existierenden APIs nutzen, sie werden weiterhin unterstützt.
 
-You can continue to use the exact same APIs as you always have; they'll continue to work.
+Neuere Versionen der Library könnten custom Hooks anbieten, wie z.B. `useRedux()` oder `useRouter()`, um die gleiche Funktion anzubieten, ohne die Verwendung einer Wrapper Komponente.
 
-In the future, new versions of these libraries might also export custom Hooks such as `useRedux()` or `useRouter()` that let you use the same features without needing wrapper components.
+### Funktionieren Hooks mit statischer Typisierung? {#do-hooks-work-with-static-typing}
 
-### Do Hooks work with static typing? {#do-hooks-work-with-static-typing}
+Hooks wurden unter Berücksichtigung der statischen Typisierung entwickelt. Da sie Funktionen sind, sind sie einfacher zu nutzen als beispeilsweise Higher-Order Komponenten. Die neusten Flow und TypeScript React Definitionen beinhalten unterstützung für Hooks.
 
-Hooks were designed with static typing in mind. Because they're functions, they are easier to type correctly than patterns like higher-order components. The latest Flow and TypeScript React definitions include support for React Hooks.
+Wichtig zu wissen ist, dass Hooks auch die React API einschränken kann. React bietet Primitiven an, aber es liegt an dir sie kombinieren und anpassen, wie es für dich am besten passt.
 
-Importantly, custom Hooks give you the power to constrain React API if you'd like to type them more strictly in some way. React gives you the primitives, but you can combine them in different ways than what we provide out of the box.
+### Wie teste ich Komponenten die Hooks verwenden? {#how-to-test-components-that-use-hooks}
 
-### How to test components that use Hooks? {#how-to-test-components-that-use-hooks}
-
-From React's point of view, a component using Hooks is just a regular component. If your testing solution doesn't rely on React internals, testing components with Hooks shouldn't be different from how you normally test components.
-
-For example, let's say we have this counter component:
+Aus der Sicht von React, ist eine Komponente, die Hooks nutzt immer noch eine Komponente. Hooks lassen sich weiterhin leicht testen. Beispiel:
 
 ```js
 function Example() {
   const [count, setCount] = useState(0);
   useEffect(() => {
-    document.title = `You clicked ${count} times`;
+    document.title = `Du hast ${count} mal geklickt`;
   });
   return (
     <div>
-      <p>You clicked {count} times</p>
+      <p>Du hast {count} mal geklickt</p>
       <button onClick={() => setCount(count + 1)}>
-        Click me
+        Klick mich
       </button>
     </div>
   );
 }
 ```
 
-We'll test it using React DOM. To make sure that the behavior matches what happens in the browser, we'll wrap the code rendering and updating it into [`ReactTestUtils.act()`](/docs/test-utils.html#act) calls:
+Wir testen diese Komponentne mit React DOM. Damit das Verhalten der Komponentne gleich bleibt wie beim Browser, fuühren wir den Code fürs rendern zusammen und aktualisieren es in [`ReactTestUtils.act()`](/docs/test-utils.html#act) Aufrufe:
 
 ```js{3,20-22,29-31}
 import React from 'react';
@@ -159,8 +155,8 @@ afterEach(() => {
   container = null;
 });
 
-it('can render and update a counter', () => {
-  // Test first render and effect
+it('Wird gerendert und aktualisiert den Zähler', () => {
+  // Teste das erste Rendern and die Auswirkungen
   act(() => {
     ReactDOM.render(<Counter />, container);
   });
@@ -169,31 +165,30 @@ it('can render and update a counter', () => {
   expect(label.textContent).toBe('You clicked 0 times');
   expect(document.title).toBe('You clicked 0 times');
 
-  // Test second render and effect
+  // Teste das zweite Rendern und die Auswirkungen
   act(() => {
     button.dispatchEvent(new MouseEvent('click', {bubbles: true}));
   });
-  expect(label.textContent).toBe('You clicked 1 times');
-  expect(document.title).toBe('You clicked 1 times');
+  expect(label.textContent).toBe('Du hast 1 mal geklickt');
+  expect(document.title).toBe('Du hast 1 mal geklickt');
 });
 ```
 
-The calls to `act()` will also flush the effects inside of them.
+Die Aufrufe zu `act()` wird auch die Auswirkungen löschen.
 
-If you need to test a custom Hook, you can do so by creating a component in your test, and using your Hook from it. Then you can test the component you wrote.
+Wenn du einen Hook testen must, kannst du eine Komponente in deinem Test erstellen, die deinen Hook verwendet. Anschliessen testest du diese Komponente.
 
-To reduce the boilerplate, we recommend using [`react-testing-library`](https://git.io/react-testing-library) which is designed to encourage writing tests that use your components as the end users do.
+Zur Reduzierung des Standardcodes empfehlen wir dir die Verwendung von [`react-testing-library`](https://git.io/react-testing-library), um Tests zu schreiben, die deine Komponenten so nutzen, wie sie Anwender verwenden würden.
 
-### What exactly do the [lint rules](https://www.npmjs.com/package/eslint-plugin-react-hooks) enforce? {#what-exactly-do-the-lint-rules-enforce}
+### Was wird durch die Lint Regeln[lint rules](https://www.npmjs.com/package/eslint-plugin-react-hooks) erzwungen? {#what-exactly-do-the-lint-rules-enforce}
 
-We provide an [ESLint plugin](https://www.npmjs.com/package/eslint-plugin-react-hooks) that enforces [rules of Hooks](/docs/hooks-rules.html) to avoid bugs. It assumes that any function starting with "`use`" and a capital letter right after it is a Hook. We recognize this heuristic isn't perfect and there may be some false positives, but without an ecosystem-wide convention there is just no way to make Hooks work well -- and longer names will discourage people from either adopting Hooks or following the convention.
+Wir bieten ein [ESLint plugin](https://www.npmjs.com/package/eslint-plugin-react-hooks), um Fehler zu vermeiden [rules of Hooks](/docs/hooks-rules.html). Unter anderem wird erwartet, dass eine Funktion mit "`use`" anfängt und ein Grossbuchstabe darauf folgt, wenn ein Hook entwickelt wird. Wir wissen, dass es dieser Vorschlag nicht perfekt ist und es einige false positives geben kann, aber ohne eine systemweite Konvention, gibt es einfach keine Möglichkeit, Hooks gut funktionieren zu lassen. Laängere Namen werden Entwickler davon abhalten, entweder Hooks zu verwenden oder der Konvention zu folgen.
 
-In particular, the rule enforces that:
+Insbesondere wird durch die Regel folgendes durchgesetzt:
+* Aufrufe von Hooks sind entweder `PascalCase` Funktionen (vorrausgesetzt es ist eine Komponente) oder eine weitere `useSomething` Funktionen (vorrausgesetzt es ist ein Hook).
+* Hooks werden in der gleichen Reihendfolge aufgerufen bei jedem Rendervorgang.
 
-* Calls to Hooks are either inside a `PascalCase` function (assumed to be a component) or another `useSomething` function (assumed to be a custom Hook).
-* Hooks are called in the same order on every render.
-
-There are a few more heuristics, and they might change over time as we fine-tune the rule to balance finding bugs with avoiding false positives.
+Es gibt noch ein paar weitere Heuristiken, die sich im Laufe der Zeit ändern könnten, wenn wir die Regel so anpassen, dass sie die Fehlersuche mit der Vermeidung von Fehlalarmen in Einklang bringt.
 
 ## From Classes to Hooks {#from-classes-to-hooks}
 
